@@ -1,6 +1,7 @@
 import gradio as gr
-from src.ui.ui import UIManage
+from modules.ui.ui_manage import UIManage
 
 if __name__ == "__main__":
-    uiManage = UIManage()
-    uiManage.ui()
+    # uiManage = UIManage()
+    # uiManage.ui()
+    pass
