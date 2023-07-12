@@ -58,4 +58,21 @@ class UIManage:
                     outputs=output_txt,
                     api_name="text_api"
                 )
+
+            with gr.Tab("stable_diffusion"):
+                model = gr.Dropdown(["v2-1_768-ema-pruned.ckpt", "xxxxxxx.ckpt", "yyyyyyy.ckpt"], label="选择模型")
+                config = gr.Dropdown(["v2-inference-v-mac.yaml", "v2-inference-v.yaml", "v2-inference.yaml"], label="选择配置文件")
+                width = gr.Slider(label="生成的图片宽度", minimum=1, maximum=1920, value=512)
+                height = gr.Slider(label="生成的图片高度", minimum=1, maximum=1080, value=512)
+                prompt_text = gr.Text(label="输入文本提示")
+                generate_btn = gr.Button("生成")
+                show_img = gr.Image(label="生成的图片")
+
+                generate_btn.click(
+                    fn=uihandler.stable_diffusion_handler,
+                    inputs=[prompt_text, height, width, config, model],
+                    outputs=show_img,
+                    api_name="api_stable_diffusion"
+                )
+                
         interface.launch(auth=uihandler.auth_handler, auth_message="username and password must be the same")

@@ -1,5 +1,7 @@
 # custom
 output_music/
+src/models/stable_diffusion/checkpoints/*
+!src/models/stable_diffusion/checkpoints/checkpoints.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
