@@ -8,19 +8,21 @@ class UIHandler:
     def text_handler(self, name):
         return "Hello " + name + "!"
 
-    def audio_handler(self, audio, model):
+    def audio_handler(self, audio, model, duration, descriptions):
         # model = MusicGen.get_pretrained('melody')
         print("audio:", audio)
         print("model:", model)
+        print("duration:", duration)
 
 
         model = MusicGen.get_pretrained(model)
 
         print("设置生成参数")
-        model.set_generation_params(duration=8)
+        model.set_generation_params(duration=duration)
         # wav = model.generate_unconditional(4)
-        descriptions = ['happy rock', 'energetic EDM', 'sad jazz']
+        # descriptions = ['happy rock', 'energetic EDM', 'sad jazz']
         # wav = model.generate(descriptions)
+        # descriptions = ['happy rock']
 
         print("加载音乐")
         # melody, sr = torchaudio.load('./assets/bach.wav')
@@ -34,12 +36,14 @@ class UIHandler:
             audio = audio[None]
         print("sr:", sr)
         print("audio1:", audio)
-        wav = model.generate_with_chroma(descriptions, audio.expand(3, -1, -1), sr)
+        wav = model.generate_with_chroma([descriptions], audio.expand(1, -1, -1), sr)
 
-        for idx, one_wav in enumerate(wav):
-            print("run audio write.")
-            path = audio_write(f'output_music/{idx}', one_wav.cpu(), model.sample_rate, strategy="loudness", loudness_compressor=True)
-            print("path:", path)
+        # for idx, one_wav in enumerate(wav):
+        #     print("run audio write.")
+        #     path = audio_write(f'output_music/{idx}', one_wav.cpu(), model.sample_rate, strategy="loudness", loudness_compressor=True)
+        #     print("path:", path)
+        path = audio_write(f'output_music/test', wav[0].cpu(), model.sample_rate, strategy="loudness", loudness_compressor=True)
+        return path
 
     def auth_handler(self, username, password):
         return username == password
