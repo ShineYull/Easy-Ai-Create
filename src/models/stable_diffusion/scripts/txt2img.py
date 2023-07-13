@@ -13,10 +13,10 @@ from torch import autocast
 from contextlib import nullcontext
 from imwatermark import WatermarkEncoder
 
-from src.models.stable_diffusion.ldm.util import instantiate_from_config
-from src.models.stable_diffusion.ldm.models.diffusion.ddim import DDIMSampler
-from src.models.stable_diffusion.ldm.models.diffusion.plms import PLMSSampler
-from src.models.stable_diffusion.ldm.models.diffusion.dpm_solver import DPMSolverSampler
+from ldm.util import instantiate_from_config
+from ldm.models.diffusion.ddim import DDIMSampler
+from ldm.models.diffusion.plms import PLMSSampler
+from ldm.models.diffusion.dpm_solver import DPMSolverSampler
 
 torch.set_grad_enabled(False)
 
@@ -212,8 +212,7 @@ def put_watermark(img, wm_encoder=None):
 
 
 def main(opt):
-    print("main opt:", opt)
-    print("main opt.seed:", opt.seed)
+    result_path = ''
     seed_everything(opt.seed)
 
     config = OmegaConf.load(f"{opt.config}")
@@ -364,6 +363,7 @@ def main(opt):
                         x_sample = 255. * rearrange(x_sample.cpu().numpy(), 'c h w -> h w c')
                         img = Image.fromarray(x_sample.astype(np.uint8))
                         img = put_watermark(img, wm_encoder)
+                        result_path = os.path.join(sample_path, f"{base_count:05}.png")
                         img.save(os.path.join(sample_path, f"{base_count:05}.png"))
                         base_count += 1
                         sample_count += 1
@@ -385,8 +385,36 @@ def main(opt):
     print(f"Your samples are ready and waiting for you here: \n{outpath} \n"
           f" \nEnjoy.")
     
-    return all_samples
+    return result_path
 
+class TxtImgOPT:
+
+    def __init__(self, prompt, img_height, img_width, config, model, steps, samples, iter):
+        self.C=4
+        self.H=img_height
+        self.W=img_width
+        self.bf16=False
+        self.ckpt='src/models/stable_diffusion/checkpoints/' + model
+        self.config='src/models/stable_diffusion/configs/stable-diffusion/' + config
+        self.ddim_eta=0.0
+        self.device='cpu'
+        self.dpm=False
+        self.f=8
+        self.fixed_code=False
+        self.from_file=None
+        self.ipex=False
+        self.n_iter=iter
+        self.n_rows=0
+        self.n_samples=samples
+        self.outdir='output_sd/txt2img-samples'
+        self.plms=False
+        self.precision='full'
+        self.prompt=prompt
+        self.repeat=1
+        self.scale=9.0
+        self.seed=42
+        self.steps=steps
+        self.torchscript=False
 
 if __name__ == "__main__":
     opt = parse_args()

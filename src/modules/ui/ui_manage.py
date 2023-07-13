@@ -65,14 +65,36 @@ class UIManage:
                 width = gr.Slider(label="生成的图片宽度", minimum=1, maximum=1920, value=512)
                 height = gr.Slider(label="生成的图片高度", minimum=1, maximum=1080, value=512)
                 prompt_text = gr.Text(label="输入文本提示")
+
+                steps = gr.Slider(label="steps", minimum=1, maximum=50, value=30, step=1)
+                samples = gr.Slider(label="samples", minimum=1, maximum=3, value=1, step=1)
+                iter = gr.Slider(label="iter", minimum=1, maximum=3, value=1, step=1)
+
                 generate_btn = gr.Button("生成")
                 show_img = gr.Image(label="生成的图片")
 
                 generate_btn.click(
                     fn=uihandler.stable_diffusion_handler,
-                    inputs=[prompt_text, height, width, config, model],
+                    inputs=[prompt_text, height, width, config, model, steps, samples, iter],
                     outputs=show_img,
                     api_name="api_stable_diffusion"
                 )
-                
+                gr.Examples(
+                    fn=uihandler.stable_diffusion_handler,
+                    examples=[
+                        [
+                            "a professional photograph of an astronaut riding a horse",
+                            512,
+                            512,
+                            "v2-inference-v-mac.yaml",
+                            "v2-1_768-ema-pruned.ckpt",
+                            30,
+                            1,
+                            1
+                        ]
+                    ],
+                    inputs=[prompt_text, height, width, config, model, steps, samples, iter],
+                    outputs=show_img,
+                )
+
         interface.launch(auth=uihandler.auth_handler, auth_message="username and password must be the same")

@@ -20,37 +20,9 @@ class UIHandler:
         path = audio_write(f'output_music/test', wav[0].cpu(), model.sample_rate, strategy="loudness", loudness_compressor=True)
         return path
 
-    def stable_diffusion_handler(self, prompt, img_height, img_width, config, model):
-        # opt = txt2img.parse_args()
-        result = txt2img.main({
-            "C":4, 
-            "H":img_height, 
-            "W":img_width, 
-            "bf16":False, 
-            "ckpt":'src/models/stable_diffusion/checkpoints/' + model, 
-            "config":'src/models/stable_diffusion/configs/stable-diffusion/' + config, 
-            "ddim_eta":0.0, 
-            "device":'cpu', 
-            "dpm":False, 
-            "f":8, 
-            "fixed_code":False, 
-            "from_file":None, 
-            "ipex":False, 
-            "n_iter":3, 
-            "n_rows":0, 
-            "n_samples":3, 
-            "outdir":'outputs/txt2img-samples', 
-            "plms":False, 
-            "precision":'full', 
-            "prompt":prompt, 
-            "repeat":1, 
-            "scale":9.0, 
-            "seed":42, 
-            "steps":50, 
-            "torchscript":False
-        })
-        
-        return result
+    def stable_diffusion_handler(self, prompt, img_height, img_width, config, model, steps, samples, iter):
+        img_path = txt2img.main(txt2img.TxtImgOPT(prompt, img_height, img_width, config, model, steps, samples, iter))
+        return img_path
 
     def auth_handler(self, username, password):
         return username == password

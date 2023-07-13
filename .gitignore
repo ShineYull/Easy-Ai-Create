@@ -1,5 +1,7 @@
 # custom
 output_music/
+output_sd/
+outputs/
 src/models/stable_diffusion/checkpoints/*
 !src/models/stable_diffusion/checkpoints/checkpoints.txt
 
