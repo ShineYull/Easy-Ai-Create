@@ -1,4 +1,5 @@
 absl-py==1.4.0
+accelerate==0.21.0
 aiohttp==3.8.4
 aiosignal==1.3.1
 albumentations==0.4.3
@@ -24,6 +25,7 @@ cloudpickle==2.2.1
 colorlog==6.7.0
 confection==0.1.0
 contourpy==1.1.0
+cpm-kernels==1.0.11
 cycler==0.11.0
 cymem==2.0.7
 Cython==0.29.36
@@ -70,6 +72,7 @@ kiwisolver==1.4.4
 kornia==0.6.0
 lameenc==1.4.2
 langcodes==3.3.0
+latex2mathml==3.76.0
 lazy_loader==0.3
 librosa==0.10.0.post2
 linkify-it-py==2.0.2
@@ -79,6 +82,7 @@ markdown-it-py==3.0.0
 MarkupSafe==2.1.3
 matplotlib==3.7.2
 mdit-py-plugins==0.4.0
+mdtex2html==1.2.0
 mdurl==0.1.2
 mpmath==1.3.0
 msgpack==1.0.5
@@ -103,6 +107,7 @@ Pillow==9.5.0
 pooch==1.6.0
 preshed==3.0.8
 protobuf==4.23.4
+psutil==5.9.5
 pudb==2019.2
 pyarrow==12.0.1
 pyasn1==0.5.0
@@ -133,6 +138,7 @@ retrying==1.3.4
 rich==13.4.2
 rpds-py==0.8.10
 rsa==4.9
+safetensors==0.3.1
 scikit-image==0.20.0
 scikit-learn==1.3.0
 scipy==1.11.1
@@ -147,6 +153,7 @@ spacy==3.5.2
 spacy-legacy==3.0.12
 spacy-loggers==1.0.4
 srsly==2.4.6
+sse-starlette==1.6.1
 starlette==0.27.0
 streamlit==1.24.1
 streamlit-drawable-canvas==0.8.0
@@ -168,7 +175,7 @@ torchmetrics==0.6.0
 torchvision==0.15.2
 tornado==6.3.2
 tqdm==4.65.0
-transformers==4.19.2
+transformers==4.30.2
 treetable==0.2.5
 typer==0.7.0
 typing-inspect==0.9.0

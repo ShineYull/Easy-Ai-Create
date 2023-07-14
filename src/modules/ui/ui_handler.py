@@ -1,14 +1,13 @@
 import torch
 import torchaudio
+import mdtex2html
+import gradio as gr
 import src.models.stable_diffusion.scripts.txt2img as txt2img
 
 from src.models.audiocraft.models import MusicGen
 from src.models.audiocraft.data.audio import audio_write
 
 class UIHandler:
-
-    def text_handler(self, name):
-        return "Hello " + name + "!"
 
     def audio_handler(self, audio, model, duration, descriptions):
         model = MusicGen.get_pretrained(model)
@@ -20,9 +19,11 @@ class UIHandler:
         path = audio_write(f'output_music/test', wav[0].cpu(), model.sample_rate, strategy="loudness", loudness_compressor=True)
         return path
 
+
     def stable_diffusion_handler(self, prompt, img_height, img_width, config, model, steps, samples, iter):
         img_path = txt2img.main(txt2img.TxtImgOPT(prompt, img_height, img_width, config, model, steps, samples, iter))
         return img_path
+
 
     def auth_handler(self, username, password):
         return username == password

@@ -1,5 +1,12 @@
 import gradio as gr
+import src.modules.handlers.chatglm_handler as chatglm_handler
+
+from src.modules.handlers.chatglm_handler import predict
+from src.modules.handlers.chatglm_handler import reset_user_input
+from src.modules.handlers.chatglm_handler import reset_state
+
 from .ui_handler import UIHandler
+from transformers import AutoModel, AutoTokenizer
 
 class UIManage:
 
@@ -48,16 +55,37 @@ class UIManage:
                     outputs=[output_audio]
                 )
 
-            with gr.Tab("text"):
-                input_txt = gr.Textbox(label="输入")
-                btn_txt = gr.Button("提交")
-                output_txt = gr.Textbox(label="输出")
-                btn_txt.click(
-                    fn=uihandler.text_handler,
-                    inputs=input_txt,
-                    outputs=output_txt,
-                    api_name="text_api"
-                )
+            with gr.Tab("Chatbot"):
+                # tokenizer = AutoTokenizer.from_pretrained("THUDM/chatglm2-6b", trust_remote_code=True)
+                # model: AutoModel = AutoModel.from_pretrained("THUDM/chatglm2-6b", trust_remote_code=True).float()
+                # # 多显卡支持，使用下面两行代替上面一行，将num_gpus改为你实际的显卡数量
+                # # from utils import load_model_on_gpus
+                # # model = load_model_on_gpus("THUDM/chatglm2-6b", num_gpus=2)
+                # model = model.eval()
+                # gr.Chatbot.postprocess = uihandler.chatbot_postprocess
+
+                chatbot = gr.Chatbot()
+                with gr.Row():
+                    with gr.Column(scale=4):
+                        with gr.Column(scale=12):
+                            user_input = gr.Textbox(show_label=False, placeholder="Input...", lines=10).style(
+                                container=False)
+                        with gr.Column(min_width=32, scale=1):
+                            submitBtn = gr.Button("Submit", variant="primary")
+                    with gr.Column(scale=1):
+                        emptyBtn = gr.Button("Clear History")
+                        max_length = gr.Slider(0, 32768, value=8192, step=1.0, label="Maximum length", interactive=True)
+                        top_p = gr.Slider(0, 1, value=0.8, step=0.01, label="Top P", interactive=True)
+                        temperature = gr.Slider(0, 1, value=0.95, step=0.01, label="Temperature", interactive=True)
+
+                history = gr.State([])
+                past_key_values = gr.State(None)
+
+                submitBtn.click(predict, [user_input, chatbot, max_length, top_p, temperature, history, past_key_values],
+                                [chatbot, history, past_key_values], show_progress=True)
+                submitBtn.click(reset_user_input, [], [user_input])
+
+                emptyBtn.click(reset_state, outputs=[chatbot, history, past_key_values], show_progress=True)
 
             with gr.Tab("stable_diffusion"):
                 model = gr.Dropdown(["v2-1_768-ema-pruned.ckpt", "xxxxxxx.ckpt", "yyyyyyy.ckpt"], label="选择模型")
@@ -97,4 +125,4 @@ class UIManage:
                     outputs=show_img,
                 )
 
-        interface.launch(auth=uihandler.auth_handler, auth_message="username and password must be the same")
+        interface.queue().launch(share=False, inbrowser=True, auth=uihandler.auth_handler, auth_message="username and password must be the same")
