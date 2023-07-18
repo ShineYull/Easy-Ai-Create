@@ -4,6 +4,11 @@ output_sd/
 outputs/
 src/models/stable_diffusion/checkpoints/*
 !src/models/stable_diffusion/checkpoints/checkpoints.txt
+/gfpgan/
+/src/models/sadtalker/gfpgan
+/results/
+/src/models/sadtalker/results
+/src/models/sadtalker/checkpoints
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
