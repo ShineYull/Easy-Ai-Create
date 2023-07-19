@@ -34,6 +34,11 @@ NotImplementedError: No operator found for `memory_efficient_attention_forward` 
     unsupported embed per head: 64
 ```
 
+2、报错：No matching distribution found for tb-nightly
+```shell
+pip config set global.index-url https://mirrors.aliyun.com/pypi/simple
+```
+
 # 鸣谢以下开源项目
 * [Sadtalker](https://github.com/OpenTalker/SadTalker)  
 * [ChatGLM2-6B](https://github.com/THUDM/ChatGLM2-6B)  
