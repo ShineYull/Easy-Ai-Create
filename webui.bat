@@ -1,2 +1,2 @@
-set PYTHONPATH=src/models/stable_diffusion:src/models
+set PYTHONPATH=%cd%\src\models\stable_diffusion;%cd%\src\models
 python app.py

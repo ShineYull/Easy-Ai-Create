@@ -8,15 +8,15 @@
             "name": "Python: 当前文件",
             "type": "python",
             "request": "launch",
-            // "program": "webui_streamlit.py",
-            "module": "streamlit",
+            "program": "app.py",
+            // "module": "streamlit",
             "console": "integratedTerminal",
             "justMyCode": false,
             "envFile": "${workspaceFolder}/.env",
-            "args": [
-                "run",
-                "webui_streamlit.py"
-            ]
+            // "args": [
+            //     "run",
+            //     "webui_streamlit.py"
+            // ]
         }
     ]
 }
