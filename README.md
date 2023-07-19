@@ -33,3 +33,9 @@ NotImplementedError: No operator found for `memory_efficient_attention_forward` 
     max(query.shape[-1] != value.shape[-1]) > 32
     unsupported embed per head: 64
 ```
+
+# 鸣谢以下开源项目
+* [Sadtalker](https://github.com/OpenTalker/SadTalker)  
+* [ChatGLM2-6B](https://github.com/THUDM/ChatGLM2-6B)  
+* [Audiocraft](https://github.com/facebookresearch/audiocraft)  
+* [StableDiffusion](https://github.com/Stability-AI/stablediffusion)
