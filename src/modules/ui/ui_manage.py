@@ -187,4 +187,4 @@ class UIManage:
                             )
                 
 
-        interface.queue().launch(share=False, inbrowser=True, auth=uihandler.auth_handler, auth_message="username and password must be the same")
+        interface.queue().launch(server_name='0.0.0.0', server_port=8080, show_error=True, share=False, inbrowser=True, auth=uihandler.auth_handler, auth_message="username and password must be the same")
